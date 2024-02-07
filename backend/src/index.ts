@@ -6,6 +6,14 @@ import userRoutes from "./routes/users";
 import authRoutes from "./routes/auth";
 import cookieParser from "cookie-parser";
 import path from "path";
+import { v2 as cloudinary } from "cloudinary";
+import myHotelsRoutes from "./routes/my-hotels";
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 mongoose.connect(process.env.MONGODB_CONNECTION_STRING as string);
 
@@ -22,10 +30,18 @@ app.use(
   })
 );
 
-app.use(express.static(path.join(__dirname, "../../frontend/dist")));//
+app.use(express.static(path.join(__dirname, "../../frontend/dist"))); //
 
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
+app.use("/api/my-hotels", myHotelsRoutes);
+
+app.get("*", (req: Request, res: Response) => {
+  //pass on any requests to our url that are not API endpoints and to let the
+  //react router dom package handle the routing of this req for us. Doint this because some of the routes are behind conditional logic and
+  //won't be part of the static files
+  res.sendFile(path.join(__dirname, "../../frontend/dist/index.html"));
+});
 
 // app.get("/api/test", async (req: Request, res: Response) => {
 //   res.json({ message: "Hello from express" });
