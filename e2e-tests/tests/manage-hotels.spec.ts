@@ -38,6 +38,25 @@ test("should allow user to add a hotel", async ({ page }) => {
     path.join(__dirname, "files", "testowy2.jpg"),
   ]);
 
-  await page.getByRole('button', {name: "Zapisz"}).click();
+  await page.getByRole("button", { name: "Zapisz" }).click();
   await expect(page.getByText("Udało się dodać hotel!")).toBeVisible();
+});
+
+test("should display hotels", async ({ page }) => {
+  await page.goto(`${UI_URL}my-hotels`);
+
+  await expect(page.getByText("Dublin Getaways")).toBeVisible();
+
+  await expect(page.getByText("Lorem ipsum dolor sit amet")).toBeVisible();
+
+  await expect(page.getByText("Dublin, Ireland")).toBeVisible();
+  await expect(page.getByText("All Inclusive")).toBeVisible();
+  await expect(page.getByText("119zł za noc")).toBeVisible();
+  await expect(page.getByText("2 Dorośli, 3 Dzieci")).toBeVisible();
+  await expect(page.getByText("2 Ocena")).toBeVisible();
+
+  await expect(
+    page.getByRole("link", { name: "Zobacz szczegóły" })
+  ).toBeVisible();
+  await expect(page.getByRole("link", { name: "Dodaj hotel" })).toBeVisible();
 });
