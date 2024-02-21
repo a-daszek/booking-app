@@ -1,6 +1,7 @@
 import express, { Request, Response } from "express";
 import Hotel from "../models/hotel";
 import { HotelSearchResponse } from "../shared/types";
+import { param, validationResult } from "express-validator";
 
 const router = express.Router();
 
@@ -44,12 +45,35 @@ router.get("/search", async (req: Request, res: Response) => {
     };
 
     res.json(response);
-
   } catch (error) {
     console.log("error", error);
     res.status(500).json({ message: "Coś poszło nie tak." });
   }
 });
+
+// /api/hotels/idofthehotel
+router.get(
+  "/:id",
+  [param("id").notEmpty().withMessage("Id hotelu jest wymagane.")],
+  async (req: Request, res: Response) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const id = req.params.id.toString();
+
+    try {
+      const hotel = await Hotel.findById(id);
+      res.json(hotel);
+    } catch (error) {
+      console.log(error);
+      res
+        .status(500)
+        .json({ message: "Wystąpił błąd przy pobieraniu danych o hotelach." });
+    }
+  }
+);
 
 const constructSearchQuery = (queryParams: any) => {
   let constructedQuery: any = {};

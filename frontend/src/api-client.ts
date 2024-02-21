@@ -114,7 +114,8 @@ export const updateMyHotelById = async (hotelFormData: FormData) => {
   return response.json();
 };
 
-export type SearchParams = {//queryparams have to be of type string
+export type SearchParams = {
+  //queryparams have to be of type string
   destination?: string;
   checkIn?: string;
   checkOut?: string;
@@ -155,6 +156,15 @@ export const searchHotels = async (
 
   if (!response.ok) {
     throw new Error("Error fetching hotels");
+  }
+
+  return response.json();
+};
+
+export const fetchHotelById = async (hotelId: string): Promise<HotelType> => {
+  const response = await fetch(`${API_BASE_URL}/api/hotels/${hotelId}`);
+  if (!response.ok) {
+    throw new Error("Wystąpił błąd przy pobieraniu danych o hotelach.");
   }
 
   return response.json();

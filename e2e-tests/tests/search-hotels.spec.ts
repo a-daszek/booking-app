@@ -25,5 +25,15 @@ test("should show hotel search results", async ({ page }) => {
 
   await expect(page.getByText(" w Dublin")).toBeVisible();
   await expect(page.getByText("Dublin Getaways")).toBeVisible();
+});
 
+test("should show hotel detail", async ({ page }) => {
+  await page.goto(UI_URL);
+
+  await page.getByPlaceholder("Gdzie się wybierzesz?").fill("Dublin");
+  await page.getByRole("button", { name: "Szukaj" }).click();
+
+  await page.getByText("Dublin Getaways").click();
+  await expect(page).toHaveURL(/detail/);
+  await expect(page.getByRole("button", { name: "Zarezerwuj" })).toBeVisible();
 });
