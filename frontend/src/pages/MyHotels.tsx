@@ -14,10 +14,10 @@ const MyHotels = () => {
   );
 
   if (!hotelData) {
-    return <span>No Hotels found</span>;
+    return <span>Nie znaleziono hoteli</span>;
   }
   return (
-    <div className="space y-5">
+    <div className="space-y-5">
       <span className="flex justify-between">
         <h1 className="text-3xl font-bold">Moje hotele</h1>
         <Link
