@@ -63,8 +63,11 @@ test("should book hotel", async ({ page }) => {
 
   await stripeFrame.locator("[placeholder='MM / YY']").fill("04/30");
   await stripeFrame.locator("[placeholder='CVC']").fill("242");
-  await stripeFrame.locator("[placeholder='ZIP']").fill("24225");
+  await stripeFrame.locator("[placeholder='ZIP']").fill("41800");
 
   await page.getByRole("button", { name: "Zatwierdź rezerwację" }).click();
   await expect(page.getByText("Zapisano rezerwację!")).toBeVisible();
+
+  await page.getByRole("link", { name: "Moje rezerwacje" }).click();
+  await expect(page.getByText("Dublin Getaways")).toBeVisible();
 });

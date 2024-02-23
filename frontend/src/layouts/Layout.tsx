@@ -9,7 +9,6 @@ interface Props {
 
 const Layout = ({ children }: Props) => {
   return (
-    // min-h-screen (tailwindcss classes) -> making sure that the app takes up the whole screen
     <div className="flex flex-col min-h-screen">
       <Header />
       <Hero />
