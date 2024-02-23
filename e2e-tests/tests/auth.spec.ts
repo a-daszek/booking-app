@@ -23,7 +23,7 @@ test("should allow the user to sign in", async ({ page }) => {
   await expect(page.getByRole("button", { name: "Wyloguj się" })).toBeVisible();
 });
 
-test("Should allow user to register", async ({ page }) => {
+test("should allow user to register", async ({ page }) => {
   const testEmail = `test_register_${
     Math.floor(Math.random() * 90000) + 10000
   }@test.com`;
